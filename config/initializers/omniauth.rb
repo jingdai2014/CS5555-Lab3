@@ -1,3 +1,3 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :fitbit, '978d0a72a55a709a67e26868770d6131', '0537b84f3605af1716d4790bcf6d0bc7'
+  provider :fitbit, '95ecbb851b8165022e445ff61c5248e5', '58bafd75ecc502521569c8613d6ca33d'
 end

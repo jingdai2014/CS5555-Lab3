@@ -25,8 +25,8 @@ private
 
     # creates a new instance of Fitgem
     client = Fitgem::Client.new({
-      consumer_key: 'YOUR_CONSUMER_KEY',
-      consumer_secret: 'YOUR_CONSUMER_SECRET',
+      consumer_key: '95ecbb851b8165022e445ff61c5248e5',
+      consumer_secret: '58bafd75ecc502521569c8613d6ca33d',
       token: user_token,
       secret: user_secret,
       user_id: fitbit_user_id,
