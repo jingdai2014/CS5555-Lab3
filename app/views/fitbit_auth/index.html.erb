@@ -1,2 +1,8 @@
 <!-- Find me in app/views/fitbit_auth/index.html.erb -->
 <%= link_to "Connect to Fitbit!!", auth_fitbit_path %>
+<div>
+	<ul>
+		<% @users.each do |user| %>
+		<li><%= user.id %></li>
+	</ul>
+</div>

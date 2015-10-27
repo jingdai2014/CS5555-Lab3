@@ -1,5 +1,9 @@
 class FitbitAuthController < ApplicationController
   
+  def index
+    @users = User.all
+  end
+
   # this is the callback information from fitbit
   def get_response
     # Access Credentials
@@ -20,9 +24,11 @@ private
   # this is the information we're sending to fitbit
   def get_user_activities(data)
     fitbit_user_id = data["uid"]
+
     user_secret = data["credentials"]["secret"]
     user_token = data["credentials"]["token"]
 
+    
     # creates a new instance of Fitgem
     client = Fitgem::Client.new({
       consumer_key: '95ecbb851b8165022e445ff61c5248e5',
@@ -33,7 +39,10 @@ private
     })
     # Reconnects existing user using their credentials
     access_token = client.reconnect(user_token, user_secret)
-
+    newuser = User.find_or_initialize_by(:id => fitbit_user_id)
+    profile = User.user_info()
+    profile_json = json:profile
+    newuser.update_attributes(:gender => profile["user"]["gender"], :dob => profile["user"]["dateOfBirth"] )
     # specifies date range to request data from
     # client.activities_on_date('today')
     client.sleep_on_date('2015-10-25')
