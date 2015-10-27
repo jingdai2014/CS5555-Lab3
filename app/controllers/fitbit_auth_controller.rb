@@ -47,6 +47,7 @@ private
     # client.activities_on_date('today')
     sleepinfo = client.sleep_on_date('2015-10-25')
     record = Sleep.find_or_initialize_by(:uid => fitbit_user_id, :date => "2015-10-25")
+    record.update_attributes(:totalMinutesAsleep => sleepinfo["summary"]["totalMinutesAsleep"])
     client.activities_on_date('today')
   end
 end
