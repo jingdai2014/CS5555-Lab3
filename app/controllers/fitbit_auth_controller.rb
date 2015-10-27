@@ -35,6 +35,7 @@ private
     access_token = client.reconnect(user_token, user_secret)
 
     # specifies date range to request data from
-    client.activities_on_date('today')
+    # client.activities_on_date('today')
+    client.sleep_on_date('2015-10-25')
   end
 end
