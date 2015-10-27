@@ -41,7 +41,6 @@ private
     access_token = client.reconnect(user_token, user_secret)
     newuser = User.find_or_initialize_by(:uid => fitbit_user_id)
     profile = client.user_info()
-    profile_json = json:profile
     newuser.update_attributes(:gender => profile["user"]["gender"], :dob => profile["user"]["dateOfBirth"] )
     # specifies date range to request data from
     # client.activities_on_date('today')
