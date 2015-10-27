@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uid: MyString
+  date: MyString
+  awakeDuration: 1
+  awakeningsCount: 1
+  totalMinutesAsleep: 1
+  totalTimeInBed: 1
+
+two:
+  uid: MyString
+  date: MyString
+  awakeDuration: 1
+  awakeningsCount: 1
+  totalMinutesAsleep: 1
+  totalTimeInBed: 1

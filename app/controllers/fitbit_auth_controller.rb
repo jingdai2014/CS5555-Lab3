@@ -42,8 +42,12 @@ private
     newuser = User.find_or_initialize_by(:uid => fitbit_user_id)
     profile = client.user_info()
     newuser.update_attributes(:gender => profile["user"]["gender"], :dob => profile["user"]["dateOfBirth"] )
+    
     # specifies date range to request data from
     # client.activities_on_date('today')
-    client.sleep_on_date('2015-10-25')
+    sleepinfo = client.sleep_on_date('2015-10-25')
+    record = Sleep.find_or_initialize_by(:uid => fitbit_user_id, :date => "2015-10-25")
+    record.update_attributes(:awakeDuration => sleepinfo["sleep"]["awakeDuration"], :awakeningsCount => sleepinfo["sleep"]["awakeningsCount"], :totalMinutesAsleep => sleepinfo["summary"]["totalMinutesAsleep"], :totalMinutesInBed => sleepinfo["summary"]["totalMinutesInBed"])
+    client.activities_on_date('today')
   end
 end
