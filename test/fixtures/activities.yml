@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uid: MyString
+  date: MyString
+  steps: 1
+  failyActiveMinutes: 1
+  lightlyActiveMinutes: 1
+  sedentaryMinutes: 1
+  veryActiveMinutes: 1
+
+two:
+  uid: MyString
+  date: MyString
+  steps: 1
+  failyActiveMinutes: 1
+  lightlyActiveMinutes: 1
+  sedentaryMinutes: 1
+  veryActiveMinutes: 1

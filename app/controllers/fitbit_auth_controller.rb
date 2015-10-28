@@ -2,6 +2,8 @@ class FitbitAuthController < ApplicationController
   
   def index
     @users = User.all
+    @sleeps = Sleep.all
+    @activities = Activity.all
   end
 
   # this is the callback information from fitbit
@@ -14,15 +16,18 @@ class FitbitAuthController < ApplicationController
     data = request.env['omniauth.auth']
 
     # the data we'll be receiving, activity data
-    activities = get_user_activities(data)
+    get_user_activities(data, "2015-10-25")
     # our view will render a basic json object  
-    render json:activities
-    #activities is an object
+    #render json:activities
+    user_id = data["uid"]
+    @user = User.find_by(:uid => user_id)
+    @sleeps = Sleep.where(:uid => user_id)
+    @activities = Activity.where(:uid => user_id)
   end
 
 private
   # this is the information we're sending to fitbit
-  def get_user_activities(data)
+  def get_user_activities(data, date)
     fitbit_user_id = data["uid"]
 
     user_secret = data["credentials"]["secret"]
@@ -37,25 +42,30 @@ private
       secret: user_secret,
       user_id: fitbit_user_id,
     })
+
     # Reconnects existing user using their credentials
     access_token = client.reconnect(user_token, user_secret)
     newuser = User.find_or_initialize_by(:uid => fitbit_user_id)
     profile = client.user_info()
-    newuser.update_attributes(:gender => profile["user"]["gender"], :dob => profile["user"]["dateOfBirth"] )
+    newuser.update_attributes(:username => profile["user"]["displayName"], :gender => profile["user"]["gender"], :dob => profile["user"]["dateOfBirth"] )
     
     # specifies date range to request data from
     # client.activities_on_date('today')
 
-    record = Sleep.find_or_initialize_by(:uid => fitbit_user_id, :date => "2015-10-25")
-    sleepinfo = client.sleep_on_date('2015-10-25')
+    record = Sleep.find_or_initialize_by(:uid => fitbit_user_id, :date => date)
+    sleepinfo = client.sleep_on_date(date)
     unless sleepinfo["sleep"].nil?
       sleepinfo["sleep"].each do |s|
-        if s["isMainSleep"] == "true"
-          record.update_attributes(:awakeDuration => s["awakeDuration"], :awakeningsCount => s["awakeningsCount"], :minutesAsleep => s["totalMinutesAsleep"], :timeInBed => s["totalTimeInBed"])
+        if s["isMainSleep"] == true
+          record.update_attributes(:awakeDuration => s["awakeDuration"], :awakeningsCount => s["awakeningsCount"], :totalMinutesAsleep => s["minutesAsleep"], :totalTimeInBed => s["timeInBed"])
         end
       end
     end
 
-    client.activities_on_date('today')
+    act_record = Activity.find_or_initialize_by(:uid => fitbit_user_id, :date => date)
+    activitiesinfo = client.activities_on_date(date)
+    unless activitiesinfo["summary"].nil?
+      act_record.update_attributes(:steps => activitiesinfo["summary"]["steps"], :failyActiveMinutes => activitiesinfo["summary"]["failyActiveMinutes"], :lightlyActiveMinutes => activitiesinfo["summary"]["lightlyActiveMinutes"], :sedentaryMinutes => activitiesinfo["summary"]["sedentaryMinutes"], :veryActiveMinutes => activitiesinfo["summary"]["veryActiveMinutes"])
+    end
   end
 end

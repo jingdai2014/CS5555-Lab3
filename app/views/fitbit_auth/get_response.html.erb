@@ -1,16 +1,12 @@
-<!-- Find me in app/views/fitbit_auth/index.html.erb -->
-<%= link_to "Connect to Fitbit!!", auth_fitbit_path %>
+<h4>Thank you! </h4>
+<li>Username: <%= @user[:username] %></li>
+<li>Gender: <%= @user[:gender] %></li>
+<li>Date of Birth: <%= @user[:dob] %></li>
 
-<% @users.each do |u| %>
-<li>Username: <%= u[:username] %></li>
-<li>Gender: <%= u[:gender] %></li>
-<li>Date of Birth: <%= u[:dob] %></li>
-<% end %>
 <h4>Sleep Summary</h4>
 <table>
 	<thead>
 		<tr>
-			<th>Uid</th>
 			<th>Date</th>
 			<th>awakeDuration</th>
     		<th>awakeningsCount</th>
@@ -21,7 +17,6 @@
 	<tbody>
 		<% @sleeps.each do |s| %>
 		<tr>
-			<td><%= s[:uid] %></td>
 			<td><%= s[:date] %></td>
 			<td><%= s[:awakeDuration] %></td>
 			<td><%= s[:awakeningsCount] %></td>
@@ -36,7 +31,6 @@
 <table>
 	<thead>
 		<tr>
-			<th>Uid</th>
 			<th>Date</th>
 			<th>Steps</th>
 			<th>Faily Active Minutes</th>
@@ -48,7 +42,6 @@
     <tbody>
     	<% @activities.each do |a| %>
     	<tr>
-    		<td><%= a[:uid] %></td>
     		<td><%= a[:date] %></td>
     		<td><%= a[:steps] %></td>
     		<td><%= a[:failyActiveMinutes] %></td>
@@ -59,3 +52,4 @@
     	<% end %>
     </tbody>
 </table>
+

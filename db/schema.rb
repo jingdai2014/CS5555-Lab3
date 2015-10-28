@@ -11,9 +11,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20151028010522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activities", force: :cascade do |t|
+    t.string   "uid"
+    t.string   "date"
+    t.integer  "steps"
+    t.integer  "failyActiveMinutes"
+    t.integer  "lightlyActiveMinutes"
+    t.integer  "sedentaryMinutes"
+    t.integer  "veryActiveMinutes"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  create_table "sleeps", force: :cascade do |t|
+    t.string   "uid"
+    t.string   "date"
+    t.integer  "awakeDuration"
+    t.integer  "awakeningsCount"
+    t.integer  "totalMinutesAsleep"
+    t.integer  "totalTimeInBed"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "uid"
+    t.string   "gender"
+    t.string   "dob"
+    t.string   "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "username"
+  end
 
 end
