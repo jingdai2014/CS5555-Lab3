@@ -45,9 +45,17 @@ private
     
     # specifies date range to request data from
     # client.activities_on_date('today')
-    sleepinfo = client.sleep_on_date('2015-10-25')
+
     record = Sleep.find_or_initialize_by(:uid => fitbit_user_id, :date => "2015-10-25")
-    record.update_attributes(:totalMinutesAsleep => sleepinfo["summary"]["totalMinutesAsleep"])
+    sleepinfo = client.sleep_on_date('2015-10-25')
+    unless sleepinfo["sleep"].nil?
+      sleepinfo["sleep"].each do |s|
+        if s["isMainSleep"] == "true"
+          record.update_attributes(:awakeDuration => s["awakeDuration"], :awakeningsCount => s["awakeningsCount"], :minutesAsleep => s["totalMinutesAsleep"], :timeInBed => s["totalTimeInBed"])
+        end
+      end
+    end
+
     client.activities_on_date('today')
   end
 end
