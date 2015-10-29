@@ -13,11 +13,17 @@
 <div class="container">
 	<div class="docs-section" id="participants">
 		<h6 class="docs-header">Partcipants</h6>
-		<% @usernames.each_with_index do |u, index| %>
-			<span>
-				<%= link_to "#{u[0]}", {:controller => "fitbit_auth", :action => "dashboard", :index => index} %>
-			</span>
-		<% end %>
+		<table>
+			<tbody>
+				<% @usernames.each_with_index do |u, index| %>
+				<th>
+					<span>
+						<%= link_to "#{u[0]}", {:controller => "fitbit_auth", :action => "dashboard", :index => index} %>
+					</span>
+				</th>
+				<% end %>	
+			</tbody>
+		</table>
 	</div>
 </div>
 
