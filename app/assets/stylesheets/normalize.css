@@ -425,3 +425,21 @@ td,
 th {
   padding: 0;
 }
+
+/* Customize
+  ================================== */
+span {
+  display: block;
+  height: 60px;
+  width: 60px;
+  line-height: 60px;
+
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  border: 2px solid grey;
+  
+  background-color: white;
+  color: grey;
+  text-align: center;
+  font-size: 2em;
+}

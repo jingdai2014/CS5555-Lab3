@@ -1,0 +1,43 @@
+<!-- Find me in app/views/fitbit_auth/dashboard.html.erb -->
+<div class="container">
+	<div class="navbar-spacer"></div>
+	<nav class="navbar">
+		<div class="container">
+			<ul class = "navbar-list">
+				<li class="navbar-item"><a class="navbar-link" href="/"> <%= "< "+"Back" %></a></li>
+				<li class="navbar-item"><a class="navbar-link" href="#intro">Intro</a></li>
+				<li class="navbar-item"><a class="navbar-link" href="#sleep">Sleep</a></li>
+				<li class="navbar-item"><a class="navbar-link" href="#activity">Activities</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="docs-section" id="intro">
+		<table class="u-full-width">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Gender</th>
+					<th>Date of Birth</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><%= @user[:username] %></td>
+					<td><%= @user[:gender] %></td>
+					<td><%= @user[:dob] %></td>
+				<tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="docs-section" id="sleep">
+		<%= high_chart("some_id", @sleepChart) %>
+	</div>
+
+	<div class="docs-section" id="activity">
+		<%= high_chart("some_id_2", @activityChart) %>
+	</div>
+</div>
+
+
