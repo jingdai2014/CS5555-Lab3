@@ -1,61 +1,61 @@
 <!-- Find me in app/views/fitbit_auth/index.html.erb -->
-<%= link_to "Connect to Fitbit!!", auth_fitbit_path %>
+<div class="container">
+	<div class="eight columns">
+		<div class="docs-section">
+		<h6 class="docs-header">Getting started</h6>
+			<p>Follow the instructions and authorize with your Fitbit account</p>
+			<%= link_to "Connect with Fitbit", auth_fitbit_path, :class=>"button" %>
+			<%= link_to "Check Dashboard", root_path,:class=>"button button-primary" %>
+		</div>
+	</div>
+</div>
 
-<% @users.each do |u| %>
-<li>Username: <%= u[:username] %></li>
-<li>Gender: <%= u[:gender] %></li>
-<li>Date of Birth: <%= u[:dob] %></li>
+
+<div class="container">
+	<div class="navbar-spacer"></div>
+	<nav class="navbar">
+		<div class="container">
+			<ul class = "navbar-list">
+				<li class="navbar-item"><a class="navbar-link" href="#intro">Intro</a></li>
+				<li class="navbar-item"><a class="navbar-link" href="#sleep">Sleep</a></li>
+				<li class="navbar-item"><a class="navbar-link" href="#activity">Activities</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="docs-section" id="intro">
+		<h6 class="docs-header">Participant Intro</h6>
+		<table class="u-full-width">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Gender</th>
+					<th>Date of Birth</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @usernames.each do |u| %>
+				<tr>
+					<td><%= u %></td>
+				<tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="container">
+<% @sleepCharts.each do |sc| %>
+<div class="docs-section" id="sleep">
+	<%= high_chart("some_id", sc) %>
+</div>
 <% end %>
-<h4>Sleep Summary</h4>
-<table>
-	<thead>
-		<tr>
-			<th>Uid</th>
-			<th>Date</th>
-			<th>awakeDuration</th>
-    		<th>awakeningsCount</th>
-    		<th>totalMinutesAsleep</th>
-    		<th>totalTimeInBed</th>
-    	</tr>
-	</thead>
-	<tbody>
-		<% @sleeps.each do |s| %>
-		<tr>
-			<td><%= s[:uid] %></td>
-			<td><%= s[:date] %></td>
-			<td><%= s[:awakeDuration] %></td>
-			<td><%= s[:awakeningsCount] %></td>
-			<td><%= s[:totalMinutesAsleep] %></td>
-			<td><%= s[:totalTimeInBed] %></td>
-		</tr>
-		<% end %>
-	</tbody>
-</table>
+</div>
 
-<h4>Activities Summary</h4>
-<table>
-	<thead>
-		<tr>
-			<th>Uid</th>
-			<th>Date</th>
-			<th>Steps</th>
-			<th>Faily Active Minutes</th>
-			<th>Lightly Active Minutes</th>
-			<th>Sedentary Minutes</th>
-    		<th>Very Active Minutes</th>
-    	</tr>
-    </thead>
-    <tbody>
-    	<% @activities.each do |a| %>
-    	<tr>
-    		<td><%= a[:uid] %></td>
-    		<td><%= a[:date] %></td>
-    		<td><%= a[:steps] %></td>
-    		<td><%= a[:failyActiveMinutes] %></td>
-    		<td><%= a[:lightlyActiveMinutes] %></td>
-    		<td><%= a[:sedentaryMinutes] %></td>
-    		<td><%= a[:veryActiveMinutes] %></td>
-    	</tr>
-    	<% end %>
-    </tbody>
-</table>
+<div class="container">
+<% @activityCharts.each do |ac| %>
+<div class="docs-section" id="activity">
+	<%= high_chart("some_id_2", ac) %>
+</div>
+<% end %>
+</div>
