@@ -95,12 +95,12 @@ private
       awakeDurations.push(s[:awakeDuration])
       awakeningsCounts.push(s[:awakeningsCounts])
       totalMinutesAsleeps.push(s[:totalMinutesAsleep])
-      totalMinutesInBeds.push(s[:totalMinutesInBed])
+      totalMinutesInBeds.push(s[:totalTimeInBed])
     end
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Sleep summary")
       f.xAxis(:categories => dates)
-      f.series(:name => "total Minutes in Beds", :yAxis => 0, :data => totalMinutesInBeds)
+      f.series(:name => "total time in Beds", :yAxis => 0, :data => totalMinutesInBeds)
       f.series(:name => "total minutes asleep", :yAxis => 1, :data => totalMinutesAsleeps)
       f.yAxis [
         {:title => {:text => "Total Minutes in Bed", :margin => 20} },
