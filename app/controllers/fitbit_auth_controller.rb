@@ -30,7 +30,7 @@ class FitbitAuthController < ApplicationController
     data = request.env['omniauth.auth']
 
     # the data we'll be receiving, activity data
-    dates = ["2015-10-25", "2015-10-26", "2015-10-27", "2015-10-28", "2015-10-29", "2015-10-30"]
+    dates = ["2015-11-02", "2015-11-03", "2015-11-04"]
     dates.each do |d|
       get_user_activities(data, d)
     end
