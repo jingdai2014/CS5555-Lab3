@@ -30,7 +30,10 @@ class FitbitAuthController < ApplicationController
     data = request.env['omniauth.auth']
 
     # the data we'll be receiving, activity data
-    get_user_activities(data, "2015-10-25")
+    dates = ["2015-10-25", "2015-10-26", "2015-10-27", "2015-10-28", "2015-10-29", "2015-10-30"]
+    dates.each do |d|
+      get_user_activities(data, d)
+    end
     # our view will render a basic json object  
     #render json:activities
     user_id = data["uid"]
@@ -64,14 +67,12 @@ private
     newuser.update_attributes(:username => profile["user"]["displayName"], :gender => profile["user"]["gender"], :dob => profile["user"]["dateOfBirth"] )
     
     # specifies date range to request data from
-    # client.activities_on_date('today')
-
     record = Sleep.find_or_initialize_by(:uid => fitbit_user_id, :date => date)
     sleepinfo = client.sleep_on_date(date)
     unless sleepinfo["sleep"].nil?
       sleepinfo["sleep"].each do |s|
         if s["isMainSleep"] == true
-          record.update_attributes(:awakeDuration => s["awakeDuration"], :awakeningsCount => s["awakeningsCount"], :totalMinutesAsleep => s["minutesAsleep"], :totalTimeInBed => s["timeInBed"])
+          record.update_attributes(:minutesToFallAsleep => s["minutesToFallAsleep"], :awakeDuration => s["awakeDuration"], :awakeningsCount => s["awakeCount"], :totalMinutesAsleep => s["minutesAsleep"], :totalTimeInBed => s["timeInBed"])
         end
       end
     end
@@ -88,27 +89,29 @@ private
     dates = []
     awakeDurations = []
     awakeningsCounts = []
+    minutesToFallAsleeps =[]
     totalMinutesAsleeps = []
     totalMinutesInBeds = []
     sleeps.each do |s|
       dates.push(s[:date])
       awakeDurations.push(s[:awakeDuration])
       awakeningsCounts.push(s[:awakeningsCounts])
+      minutesToFallAsleeps.push(s[:minutesToFallAsleep])
       totalMinutesAsleeps.push(s[:totalMinutesAsleep])
       totalMinutesInBeds.push(s[:totalTimeInBed])
     end
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Sleep summary")
       f.xAxis(:categories => dates)
-      f.series(:name => "total time in Beds", :yAxis => 0, :data => totalMinutesInBeds)
-      f.series(:name => "total minutes asleep", :yAxis => 1, :data => totalMinutesAsleeps)
+      f.series(:name => "minutes to fall asleep", :yAxis => 0, :data => minutesToFallAsleeps)
+      f.series(:name => "awake times", :yAxis => 1, :data => awakeDurations)
       f.yAxis [
-        {:title => {:text => "Total Minutes in Bed", :margin => 20} },
-        {:title => {:text => "Total Minutes Asleep"}, :opposite => true},
+        {:title => {:text => "Minutes to Fall Asleep", :margin => 20} },
+        {:title => {:text => "Awake Times"}, :opposite => true},
       ]
 
       f.legend(:align => 'center', :verticalAlign => 'bottom', :layout => 'horizontal',)
-      f.chart({:defaultSeriesType=>"column"})
+      f.chart({:defaultSeriesType=>"spline"})
     end
     return @chart    
   end
