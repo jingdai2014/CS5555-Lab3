@@ -30,7 +30,7 @@ class FitbitAuthController < ApplicationController
     data = request.env['omniauth.auth']
 
     # the data we'll be receiving, activity data
-    dates = ["2015-11-02", "2015-11-03", "2015-11-04"]
+    dates = ["2015-10-30", "2015-11-01", "2015-11-02", "2015-11-03", "2015-11-04"]
     dates.each do |d|
       get_user_activities(data, d)
     end
@@ -72,7 +72,7 @@ private
     unless sleepinfo["sleep"].nil?
       sleepinfo["sleep"].each do |s|
         if s["isMainSleep"] == true
-          record.update_attributes(:minutesToFallAsleep => s["minutesToFallAsleep"], :awakeDuration => s["awakeDuration"], :awakeningsCount => s["awakeCount"], :totalMinutesAsleep => s["minutesAsleep"], :totalTimeInBed => s["timeInBed"])
+          record.update_attributes(:minutesToFallAsleep => s["minutesToFallAsleep"], :awakeDuration => s["awakeDuration"], :awakeningsCount => s["awakeCount"], :totalMinutesAsleep => s["minutesAsleep"], :totalTimeInBed => s["timeInBed"], :startTime => s["startTime"])
         end
       end
     end
@@ -86,14 +86,14 @@ private
 
   def create_sleep_chart(uid)
     sleeps = Sleep.where(:uid => uid)
-    dates = []
+    datetime = []
     awakeDurations = []
     awakeningsCounts = []
     minutesToFallAsleeps =[]
     totalMinutesAsleeps = []
     totalMinutesInBeds = []
     sleeps.each do |s|
-      dates.push(s[:date])
+      datetime.push(s[:date]+" "+s[:startTime][11..-5]+"AM")
       awakeDurations.push(s[:awakeDuration])
       awakeningsCounts.push(s[:awakeningsCounts])
       minutesToFallAsleeps.push(s[:minutesToFallAsleep])
@@ -102,7 +102,7 @@ private
     end
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Sleep summary")
-      f.xAxis(:categories => dates)
+      f.xAxis(:categories => datetime)
       f.series(:name => "minutes to fall asleep", :yAxis => 0, :data => minutesToFallAsleeps)
       f.series(:name => "awake times", :yAxis => 1, :data => awakeDurations)
       f.yAxis [
