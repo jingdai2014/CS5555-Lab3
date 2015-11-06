@@ -1,5 +1,5 @@
 class FitbitAuthController < ApplicationController
-  
+ 
   def index
     users = User.all
     @usernames = []
@@ -29,17 +29,10 @@ class FitbitAuthController < ApplicationController
     # creates a variable we can pass as an argument below
     data = request.env['omniauth.auth']
 
-    # the data we'll be receiving, activity data
-    dates = ["2015-10-30", "2015-11-01", "2015-11-02", "2015-11-03", "2015-11-04"]
+    dates = ["2015-11-01", "2015-11-02", "2015-11-03", "2015-11-04", "2015-11-05"]
     dates.each do |d|
       get_user_activities(data, d)
     end
-    # our view will render a basic json object  
-    #render json:activities
-    user_id = data["uid"]
-    @user = User.find_by(:uid => user_id)
-    @sleeps = Sleep.where(:uid => user_id)
-    @activities = Activity.where(:uid => user_id)
   end
 
 private
@@ -66,7 +59,6 @@ private
     profile = client.user_info()
     newuser.update_attributes(:username => profile["user"]["displayName"], :gender => profile["user"]["gender"], :dob => profile["user"]["dateOfBirth"] )
     
-    # specifies date range to request data from
     record = Sleep.find_or_initialize_by(:uid => fitbit_user_id, :date => date)
     sleepinfo = client.sleep_on_date(date)
     unless sleepinfo["sleep"].nil?
