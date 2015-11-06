@@ -3,7 +3,7 @@ Team members:
 Jing Dai (jd837@cornell.edu) & Rachel Ruiheng Wang (rw533@cornell.edu)
 
 ----
-A ruby on rails web application let user authorize with fitbit account, pull user's sleep and activity data and visualize using highcharts. This is deployed on Heroku: [Visit Homepage!](http://arcane-island-1759.herokuapp.com)
+A ruby on rails web application built on top of [fitbitmvp](https://github.com/mattmorgante/fitbitmvp). It lets user authorize with fitbit account, stores user's sleep and activity data and visualizes using highcharts. This is deployed on Heroku: [Visit Homepage!](http://arcane-island-1759.herokuapp.com)
 
 ## Instructions:
 * install Ruby
